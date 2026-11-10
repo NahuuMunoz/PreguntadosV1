@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1794327693 source:c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"multiple_choice.h"
+	"ranking.h"
+
+1794327693 c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\multiple_choice.h
+
+1793985755 c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\ranking.h
+
+1794327693 source:c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\multiple_choice.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"multiple_choice.h"
+
+1790620473 source:c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\pila.c
+	<stdio.h>
+	"pila.h"
+
+1790620475 c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\pila.h
+
+1793986016 source:c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\ranking.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ranking.h"
+
