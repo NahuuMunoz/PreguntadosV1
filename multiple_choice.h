@@ -23,6 +23,7 @@ typedef struct {
 
 // Utilidades
 void leerTextoMC(char texto[], int dimension);
+int leerEntero(void);
 void mezclar_indices(int orden[], int cantidad);
 
 // Persistencia y ABM

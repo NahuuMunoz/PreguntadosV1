@@ -8,6 +8,29 @@ void leerTextoMC(char texto[], int dimension) {
     texto[strcspn(texto, "\n")] = '\0';
 }
 
+/// Lee un numero entero por teclado y descarta el resto de la linea (incluido el Enter).
+/// Devuelve -1 si el usuario escribio algo que no es un numero.
+/// Se usa en lugar de scanf + fflush(stdin), porque fflush(stdin) no limpia el
+/// teclado en todos los compiladores y el Enter sobrante rompia los fgets siguientes.
+int leerEntero(void) {
+    int valor;
+    int c;
+
+    if (scanf("%d", &valor) != 1) {
+        valor = -1;
+    }
+
+    do {
+        c = getchar();
+    } while (c != '\n' && c != EOF);
+
+    if (c == EOF && valor == -1) {
+        exit(0); /// Se cerro la entrada: no hay nada mas para leer
+    }
+
+    return valor;
+}
+
 void mezclar_indices(int orden[], int cantidad) {
     int i, azar, aux;
     for (i = 0; i < cantidad; i++) {
@@ -47,7 +70,7 @@ int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJuga
 
         do {
             printf("Tu respuesta (1-4): ");
-            scanf("%d", &respuesta);
+            respuesta = leerEntero();
         } while (respuesta < 1 || respuesta > 4);
 
         if (respuesta == p.respuestaCorrecta) {
