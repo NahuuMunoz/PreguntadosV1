@@ -1,0 +1,81 @@
+# depslib dependency file v1.0
+1794327693 source:c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"multiple_choice.h"
+	"ranking.h"
+
+1794327693 c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\multiple_choice.h
+
+1793985755 c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\ranking.h
+
+1794327693 source:c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\multiple_choice.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"multiple_choice.h"
+
+1790620473 source:c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\pila.c
+	<stdio.h>
+	"pila.h"
+
+1790620475 c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\pila.h
+
+1793986016 source:c:\users\muozn\onedrive\escritorio\facu\progra 1\proyecto final\prueba login\tp final progra 1 rama nahuel\ranking.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ranking.h"
+
+1794776569 source:c:\preguntadosv1\multiple_choice.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"multiple_choice.h"
+
+1794776575 c:\preguntadosv1\multiple_choice.h
+
+1794776573 source:c:\preguntadosv1\pila.c
+	<stdio.h>
+	"pila.h"
+
+1794776575 c:\preguntadosv1\pila.h
+
+1794776572 source:c:\preguntadosv1\ranking.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ranking.h"
+
+1794776574 c:\preguntadosv1\ranking.h
+
+1794776545 source:c:\preguntadosv1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"login.h"
+	"pila.h"
+	"verdadero_falso.h"
+	"multiple_choice.h"
+	"ranking.h"
+
+1794776545 c:\preguntadosv1\login.h
+
+1794776545 source:c:\preguntadosv1\login.c
+	"login.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1794776545 c:\preguntadosv1\verdadero_falso.h
+	"multiple_choice.h"
+
+1794776870 source:c:\preguntadosv1\verdadero_falso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"verdadero_falso.h"
+
