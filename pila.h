@@ -15,4 +15,3 @@ void leer(Pila* p);
 void mostrar(Pila* p);
 
 #endif // PILA_H_INCLUDED
-#endif // PILA_H_INCLUDED

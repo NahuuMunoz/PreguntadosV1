@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -21,7 +20,7 @@ int main(void) {
     printf("\n--- EL PROGRAMA INICIO CORRECTAMENTE ---\n");
     system("pause");
 
-    const char archivo[] = "jugadores.dat";
+    const char archivo[] = ARCHIVO_JUGADORES;
     int opcionMenuLogin = -1;
     int opcionMenuJugador = -1;
     int opcHistorial;
@@ -41,7 +40,7 @@ int main(void) {
         printf("1_ Iniciar Sesion (Login)\n");
         printf("2_ Registrar Nuevo Jugador\n");
         printf("0_ Salir\n");
-        scanf(" %d", &opcionMenuLogin);
+        opcionMenuLogin = leerEntero();
 
         switch(opcionMenuLogin) {
             case 1:
@@ -80,7 +79,7 @@ int main(void) {
                         printf("2_ Ver Historiales y Rankings \n");
                         printf("3_ Ver Jugadores Registrados \n");
                         printf("0_ Cerrar Sesion (Volver al Login) \n");
-                        scanf(" %d", &opcionMenuJugador);
+                        opcionMenuJugador = leerEntero();
 
                         switch(opcionMenuJugador) {
                             case 1:
@@ -97,7 +96,7 @@ int main(void) {
                                     printf("3_ Ver Banco de Preguntas\n");
                                     printf("0_ Volver al Menu Jugador\n");
                                     printf("Opcion: ");
-                                    scanf("%d", &opcHistorial);
+                                    opcHistorial = leerEntero();
 
                                     switch(opcHistorial) {
                                         case 1:
@@ -166,12 +165,32 @@ void partidaNueva(int idJugador, const char nombreJugador[]) {
     int c;
     int puestoAntes = -1;
     int puestoNuevo = -1;
+    int modo = 0;               /// 1 = Facil, 2 = Dificil
+    int cantCategorias;         /// Cuantas categorias se juegan en la partida
+    int preguntasPorCategoria;  /// Cuantas preguntas se hacen de cada categoria
+
+    /// Eleccion del modo de juego
+    do {
+        printf("\n--- ELEGI EL MODO DE JUEGO ---\n");
+        printf("1_ Facil   (3 categorias al azar, 3 preguntas de cada una)\n");
+        printf("2_ Dificil (5 categorias al azar, 5 preguntas de cada una)\n");
+        printf("Modo: ");
+        modo = leerEntero(); /// Si escriben una letra devuelve -1 y se vuelve a preguntar
+    } while (modo != 1 && modo != 2);
+
+    if (modo == 1) {
+        cantCategorias = 3;
+        preguntasPorCategoria = 3;
+    } else {
+        cantCategorias = 5;
+        preguntasPorCategoria = 5;
+    }
 
     mezclar_indices(indicesCats, 5); /// Elige de froma aleatoria el orden de las categorias
 
-    printf("\n\t COMIENZA LA PARTIDA \t\n");
+    printf("\n\t COMIENZA LA PARTIDA (Modo %s) \t\n", (modo == 1) ? "Facil" : "Dificil");
 
-    for (c = 0; c < 3; c++) {
+    for (c = 0; c < cantCategorias; c++) {
         Categoria catElegida = cats[indicesCats[c]];
 
         /// 0 = Multiple Choice, 1 = Verdadero / Falso
@@ -182,14 +201,14 @@ void partidaNueva(int idJugador, const char nombreJugador[]) {
             int cargadas = cargarMCPorCategoria(ARCHIVO_MC, catElegida.idCategoria, preguntasArchivo, 5);
 
             if (cargadas > 0) {
-                puntajeTotal += jugar_categoria_mc(catElegida, preguntasArchivo, 2, cargadas);
+                puntajeTotal += jugar_categoria_mc(catElegida, preguntasArchivo, preguntasPorCategoria, cargadas);
             }
         } else {
             PreguntaVoF preguntasArchivoVoF[5];
             int cargadas = cargarVoFPorCategoria(ARCHIVO_VOF, catElegida.idCategoria, preguntasArchivoVoF, 5);
 
             if (cargadas > 0) {
-                puntajeTotal += jugar_categoria_vof(catElegida, preguntasArchivoVoF, 2, cargadas);
+                puntajeTotal += jugar_categoria_vof(catElegida, preguntasArchivoVoF, preguntasPorCategoria, cargadas);
             }
         }
     }
@@ -200,7 +219,7 @@ void partidaNueva(int idJugador, const char nombreJugador[]) {
     nuevaPartida.idPartida = (int)cantidadPartidasGuardadas(ARCHIVO_PARTIDAS) + 1;
     nuevaPartida.idJugador = idJugador;
     strcpy(nuevaPartida.nombreJugador, nombreJugador);
-    nuevaPartida.modo = 1;
+    nuevaPartida.modo = modo;
     nuevaPartida.puntajeObtenido = puntajeTotal;
     nuevaPartida.respuestasCorrectas = 0;
     nuevaPartida.rachaMaximaPartida = 0;
@@ -208,6 +227,9 @@ void partidaNueva(int idJugador, const char nombreJugador[]) {
 
     guardarPartidaArchivo(ARCHIVO_PARTIDAS, nuevaPartida);
     registrarPuntajeYEscalar(ARCHIVO_HISTORICO, nuevaPartida, &puestoAntes, &puestoNuevo);
+
+    /// Suma el puntaje y la partida al jugador, para que se vea en "Jugadores Registrados"
+    actualizarEstadisticasJugador(ARCHIVO_JUGADORES, idJugador, puntajeTotal);
 }
 
 ///Funcion para leer archivo Jugadores
@@ -236,101 +258,4 @@ void mostrarJugadores(const char archivo[])
     }
 
     fclose(archi);
-}
-=======
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
-#include "multiple_choice.h"
-#include "ranking.h"
-
-void partidaNueva(int idJugador, const char nombreJugador[]);
-
-int main(void) {
-    int idLogueado = 1;
-    char nombreLogueado[40] = "JugadorDePrueba";
-    int opcion;
-
-    srand((unsigned int) time(NULL));
-
-    inicializarBancoMC(ARCHIVO_MC);
-
-    printf("=== Aca iria el login de tu amigo ===\n");
-    printf("Simulamos que te logueaste como ID %d, Nombre: %s\n\n", idLogueado, nombreLogueado);
-
-    do {
-        printf("======= MENU PREGUNTADOS =======\n");
-        printf("1. Jugar Partida (Multiple Choice)\n");
-        printf("2. Ver Ranking de Mejores Partidas\n");
-        printf("3. Ver Ranking Historico (Podio)\n");
-        printf("4. Ver Banco de Preguntas\n");
-        printf("0. Salir\n");
-        printf("Opcion: ");
-        scanf("%d", &opcion);
-
-        switch (opcion) {
-            case 1:
-                partidaNueva(idLogueado, nombreLogueado);
-                break;
-            case 2:
-                mostrarRankingPartidas(ARCHIVO_PARTIDAS);
-                break;
-            case 3:
-                mostrarRankingHistorico(ARCHIVO_HISTORICO);
-                break;
-            case 4:
-                listarBancoMC(ARCHIVO_MC);
-                break;
-            case 0:
-                printf("Saliendo...\n");
-                break;
-            default:
-                printf("Opcion no valida.\n");
-                break;
-        }
-    } while (opcion != 0);
-
-    return 0;
-}
-
-void partidaNueva(int idJugador, const char nombreJugador[]) {
-    Categoria cats[5] = {
-        {1, "Deportes"}, {2, "Historia"}, {3, "Geografia"}, {4, "Ciencia"}, {5, "Programacion"}
-    };
-    int indicesCats[5] = {0, 1, 2, 3, 4};
-    int puntajeTotal = 0;
-    int c;
-    int puestoAntes = -1;
-    int puestoNuevo = -1;
-
-    mezclar_indices(indicesCats, 5);
-
-    printf("\n>>> COMIENZA LA PARTIDA <<<\n");
-
-    for (c = 0; c < 3; c++) {
-        Categoria catElegida = cats[indicesCats[c]];
-        PreguntaMC preguntasArchivo[5];
-
-        int cargadas = cargarMCPorCategoria(ARCHIVO_MC, catElegida.idCategoria, preguntasArchivo, 5);
-
-        if (cargadas > 0) {
-            puntajeTotal += jugar_categoria_mc(catElegida, preguntasArchivo, 2, cargadas);
-        }
-    }
-
-    printf("\n=== FIN DEL JUEGO! PUNTAJE FINAL: %d ===\n", puntajeTotal);
-
-    Partida nuevaPartida;
-    nuevaPartida.idPartida = (int)cantidadPartidasGuardadas(ARCHIVO_PARTIDAS) + 1;
-    nuevaPartida.idJugador = idJugador;
-    strcpy(nuevaPartida.nombreJugador, nombreJugador);
-    nuevaPartida.modo = 1;
-    nuevaPartida.puntajeObtenido = puntajeTotal;
-    nuevaPartida.respuestasCorrectas = 0;
-    nuevaPartida.rachaMaximaPartida = 0;
-    nuevaPartida.activo = 1;
-
-    guardarPartidaArchivo(ARCHIVO_PARTIDAS, nuevaPartida);
-    registrarPuntajeYEscalar(ARCHIVO_HISTORICO, nuevaPartida, &puestoAntes, &puestoNuevo);
 }
