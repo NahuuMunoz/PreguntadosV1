@@ -159,6 +159,46 @@ void inicializarBancoMC(const char nombreArchivo[]) {
     fclose(archivo);
 }
 
+
+
+void inicializarBancoMCHardcore(const char nombreArchivo[]) {
+    if (cantidadPreguntasMC(nombreArchivo) >= TOTAL_PREGUNTAS_MC) return;
+
+    FILE *archivo = fopen(nombreArchivo, "wb");
+    if (archivo == NULL) return;
+
+    PreguntaMC banco[25] = {
+        {1, {1, "Deportes"}, "Cuantas derrotas oficiales tuvo Mike Tyson en su carrera?", {"0", "2", "4", "6"}, 4, 300, 1},
+        {2, {1, "Deportes"}, "Que seleccion perdio 3 finales del mundo antes de ganar su primera?", {"Holanda", "Inglaterra", "Ninguna", "Francia"}, 3, 300, 1},
+        {3, {1, "Deportes"}, "Cual fue el primer futbolista en ganar una copa mundial tanto como jugador como entrenador?", {"Maradona", "Zagallo", "Pele", "Beckenbauer"}, 2, 300, 1},
+        {4, {1, "Deportes"}, "Quien es el mejor ajedrecista del mundo actualmente?", {"Hikaru Nakamura", "Magnus Carlsen", "Bobby Fischer", "Levy Rozman"}, 2, 300, 1},
+        {5, {1, "Deportes"}, "Que jugador marco el gol mas rapido en la historia de los mundiales?", {"Hakan sukur", "Lionel Messi", "Roberto Baggio", "Thomas Muller"}, 2, 300, 1},
+        {6, {2, "Historia"}, "Quien fue el ultimo faraon o faraona en gobernar el Antiguo Egipto antes de ser anexado por Roma?", {"Cleopatra", "Tutankamon", "Narmer", "Ramses"}, 1, 300, 1},
+        {7, {2, "Historia"}, "En que anio se firmo la Carta Magna en Inglaterra?", {"1215", "1438", "1730", "1270"}, 1, 300, 1},
+        {8, {2, "Historia"}, "En que guerra mundial se inventaron los molotovs?", {"Primera", "Segunda", "Ninguna", "Tercera"}, 3, 300, 1},
+        {9, {2, "Historia"}, "La invasion de Alemania a que pais marca el comienzo de la segunda guerra mundial?", {"Francia", "Austria", "Italia", "Polonia"}, 4, 300, 1},
+        {10, {2, "Historia"}, "Quien fundo el fascismo?", {"Hitler", "Stalin", "Mussolini", "Videla"}, 3, 300, 1},
+        {11, {3, "Geografia"}, "Cual es el pais mas poblado actualmente?", {"China", "India", "Russia", "EEUU"}, 2, 300, 1},
+        {12, {3, "Geografia"}, "Que pais esta completamente rodeado por territorio de sudafrica?", {"Lesotho", "Ethiopia", "Kenya", "Esuatini"}, 1, 300, 1},
+        {13, {3, "Geografia"}, "Como se llama el punto mas alejado de la superficie terrestre?", {"Nemo", "Doris", "Mariana", "Bermudas"}, 1, 300, 1},
+        {14, {3, "Geografia"}, "Cual es el pais sin salida al mar mas grande?", {"Iran", "Mongolia", "Kazajistan", "Bolivia"}, 3, 300, 1},
+        {15, {3, "Geografia"}, "En qué país se encuentra el lago Baikal, el más profundo del mundo?", {"Mongolia", "Russia", "Ucrania", "Bielorussia"}, 2, 300, 1},
+        {16, {4, "Ciencia"}, "En que medio viaja más rapido el sonido?", {"Acero", "Agua", "Aire", "Madera"}, 1, 300, 1},
+        {17, {4, "Ciencia"}, "Como se denominan los animales que son más activos durante el amanecer y el anochecer?", {"Noctambulos", "Acechadores", "Diurnos", "Crepusculares"}, 4, 300, 1},
+        {18, {4, "Ciencia"}, "Cual fue la temperatura (en celsius) mas baja registrada? ", {"-45", "-39", "-52", "-89"}, 4, 300, 1},
+        {19, {4, "Ciencia"}, "Que nombre recibe una reaccion quimica que libera energia termica(calor)?", {"Endotermica", "Exotermica", "Hypertermica", "Endocalida"}, 2, 300, 1},
+        {20, {4, "Ciencia"}, "Cuantos elementos hay en la tabla periodica?", {"120", "89", "218", "118"}, 4, 300, 1},
+        {21, {5, "Programacion"}, "Cual fue el primer lenguaje de programacion de la historia?", {"Fortran", "Plankalkul", "C", "Cobol"}, 1, 300, 1},
+        {22, {5, "Programacion"}, "En javascript, que devuelve la expresion typeof null?", {"NULL", "undefined", "object", "boolean"}, 3, 300, 1},
+        {23, {5, "Programacion"}, "Que estructura de datos funciona bajo el principio LIFO?", {"Cola", "Arbol binario", "Pila", "Tabla Hash"}, 3, 300, 1},
+        {24, {5, "Programacion"}, "Quien es considerada la primera programadora en computadora?", {"Ada Lovelace", "Alan Turing", "Margaret Hamilton", "Grace Hopper"}, 1, 300, 1},
+        {25, {5, "Programacion"}, "Cual de los siguientes lenguajes de programacion es estatico?", {"Python", "Javascript", "Ruby", "Java"}, 4, 300, 1},
+        };
+
+    fwrite(banco, sizeof(PreguntaMC), 25, archivo);
+    fclose(archivo);
+}
+
 void listarBancoMC(const char nombreArchivo[]) {
     FILE *archivo = fopen(nombreArchivo, "rb");
     PreguntaMC p;
