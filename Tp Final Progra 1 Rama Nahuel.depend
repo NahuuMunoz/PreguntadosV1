@@ -29,3 +29,53 @@
 	<string.h>
 	"ranking.h"
 
+1794783757 source:c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\pila.c
+	<stdio.h>
+	"pila.h"
+
+1794784056 c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\pila.h
+
+1794785764 source:c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\login.c
+	"login.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1794785764 c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\login.h
+
+1794785765 source:c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"login.h"
+	"pila.h"
+	"verdadero_falso.h"
+	"multiple_choice.h"
+	"ranking.h"
+
+1794783752 c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\verdadero_falso.h
+	"multiple_choice.h"
+
+1794784506 c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\multiple_choice.h
+
+1794783917 c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\ranking.h
+
+1794784506 source:c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\multiple_choice.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"multiple_choice.h"
+
+1794783917 source:c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\ranking.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ranking.h"
+
+1794783752 source:c:\users\muozn\onedrive\escritorio\preguntadosv1-main\preguntadosv1-main\verdadero_falso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"verdadero_falso.h"
+

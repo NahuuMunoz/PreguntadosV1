@@ -100,6 +100,37 @@ void guardarJugadorEnArchivo(const char archivo[], Jugador nuevoJugador)
     }
 }
 
+///Funcion que suma el puntaje de una partida y una partida jugada al jugador indicado.
+///Busca al jugador por ID dentro del archivo y sobreescribe su registro.
+///Devuelve 1 si lo pudo actualizar y 0 si no lo encontro.
+int actualizarEstadisticasJugador(const char archivo[], int idJugador, int puntajeObtenido)
+{
+    FILE *archi = fopen(archivo, "r+b");
+    Jugador player;
+    int actualizado = 0;
+
+    if(archi == NULL)
+    {
+        return 0;
+    }
+
+    while(!actualizado && fread(&player, sizeof(Jugador), 1, archi) == 1)
+    {
+        if(player.ID == idJugador)
+        {
+            player.puntaje += puntajeObtenido;
+            player.partidasJugadas += 1;
+
+            fseek(archi, -(long) sizeof(Jugador), SEEK_CUR); ///Volvemos un registro atras para pisarlo
+            fwrite(&player, sizeof(Jugador), 1, archi);
+            actualizado = 1;
+        }
+    }
+
+    fclose(archi);
+    return actualizado;
+}
+
 int validarLogin(const char archivo[], char usuarioIngresado[], char claveIngresada[])
 {
     FILE *archi = fopen(archivo, "rb");
