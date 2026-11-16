@@ -6,6 +6,10 @@
 #define MC_POR_CATEGORIA 5
 #define TOTAL_PREGUNTAS_MC 25
 
+#define ARCHIVO_MC_HARDCORE "archivo_diffhardcore"
+
+#define TIEMPO_HARDCORE 15 //Tiempo maximo para contestar cada pregunta
+
 typedef struct {
     int idCategoria;
     char nombre[40];

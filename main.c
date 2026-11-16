@@ -8,6 +8,10 @@
 #include "multiple_choice.h"
 #include "ranking.h"
 
+const char *archivoMC = ARCHIVO_MC;
+char *nombreModo = "Facil";
+
+
 ///Constantes de Archivos usados
 #define ARCHIVO_PARTIDAS "partidas.dat"
 
@@ -32,6 +36,7 @@ int main(void) {
 
     srand((unsigned int) time(NULL));
     inicializarBancoMC(ARCHIVO_MC);
+    inicializarBancoMCHardcore(ARCHIVO_MC_HARDCORE);
     inicializarBancoVoF(ARCHIVO_VOF);
 
     do {
@@ -174,31 +179,38 @@ void partidaNueva(int idJugador, const char nombreJugador[]) {
         printf("\n--- ELEGI EL MODO DE JUEGO ---\n");
         printf("1_ Facil   (3 categorias al azar, 3 preguntas de cada una)\n");
         printf("2_ Dificil (5 categorias al azar, 5 preguntas de cada una)\n");
+        printf("3_ Hardcore (5 categorias al azar, 5 preguntas de cada una, contrarreloj)\n");
         printf("Modo: ");
         modo = leerEntero(); /// Si escriben una letra devuelve -1 y se vuelve a preguntar
-    } while (modo != 1 && modo != 2);
+    } while (modo != 1 && modo != 2 && modo != 3);
 
     if (modo == 1) {
         cantCategorias = 3;
         preguntasPorCategoria = 3;
-    } else {
+    } else if(modo == 2) {
         cantCategorias = 5;
         preguntasPorCategoria = 5;
+        nombreModo = "Dificil";
+    }else{
+        cantCategorias = 5;
+        preguntasPorCategoria = 5;
+        archivoMC = ARCHIVO_MC_HARDCORE;
+        nombreModo = "Hardcore";
     }
 
     mezclar_indices(indicesCats, 5); /// Elige de froma aleatoria el orden de las categorias
 
-    printf("\n\t COMIENZA LA PARTIDA (Modo %s) \t\n", (modo == 1) ? "Facil" : "Dificil");
+    printf("\n\t COMIENZA LA PARTIDA (Modo %s) \t\n", nombreModo);
 
     for (c = 0; c < cantCategorias; c++) {
         Categoria catElegida = cats[indicesCats[c]];
 
         /// 0 = Multiple Choice, 1 = Verdadero / Falso
-        int tipoJuegoAleatorio = rand() % 2;
+        int tipoJuegoAleatorio = (modo == 3) ? 0 : rand() % 2;
 
         if (tipoJuegoAleatorio == 0) {
             PreguntaMC preguntasArchivo[5];
-            int cargadas = cargarMCPorCategoria(ARCHIVO_MC, catElegida.idCategoria, preguntasArchivo, 5);
+            int cargadas = cargarMCPorCategoria(archivoMC, catElegida.idCategoria, preguntasArchivo, 5);
 
             if (cargadas > 0) {
                 puntajeTotal += jugar_categoria_mc(catElegida, preguntasArchivo, preguntasPorCategoria, cargadas);
