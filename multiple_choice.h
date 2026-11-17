@@ -7,7 +7,6 @@
 #define TOTAL_PREGUNTAS_MC 25
 #define ARCHIVO_MC_HARDCORE "archivo_diffhardcore"
 
-#define TIEMPO_HARDCORE 15 //Tiempo maximo para contestar cada pregunta
 
 typedef struct {
     int idCategoria;
@@ -36,7 +35,8 @@ void inicializarBancoMCHardcore(const char nombreArchivo[]);
 int guardarPreguntaMC(const char nombreArchivo[], PreguntaMC nueva);
 void listarBancoMC(const char nombreArchivo[]);
 int cargarMCPorCategoria(const char nombreArchivo[], int idCategoria, PreguntaMC destino[], int maxDim);
+int leerRespuestaConTiempo(int segundosLimite);
 
 // Funciones de juego
-int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJugar, int preguntasCargadas, int *racha, int multiplicadorRacha);
+int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJugar, int preguntasCargadas, int *racha, int multiplicadorRacha, int segundosLimite);
 #endif

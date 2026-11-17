@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "multiple_choice.h"
+#include <conio.h>
+#include <windows.h>
 
 void leerTextoMC(char texto[], int dimension)
 {
@@ -49,7 +51,53 @@ void mezclar_indices(int orden[], int cantidad)
     }
 }
 
-int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJugar, int preguntasCargadas, int *racha, int multiplicadorRacha)
+
+
+
+// Lee una opcion (1-4) con limite de tiempo.
+// Devuelve 1-4 si respondio a tiempo, o 0 si se acabo el tiempo.
+int leerRespuestaConTiempo(int segundosLimite)
+{
+    DWORD inicio;
+    DWORD limiteMs = (DWORD) segundosLimite * 1000;
+    int tecla;
+
+    // Chequea que el usuario haya apretado una tecla sin pausar el programa
+    while (_kbhit())
+    {
+        _getch(); //Lee una tecla SIN esperar al enter ni pausar el programa
+    }
+
+    printf("Tu respuesta (1-4): ");
+    inicio = GetTickCount();
+
+    while (GetTickCount() - inicio < limiteMs)
+    {
+        if (_kbhit())
+        {
+            tecla = _getch();
+            if (tecla >= '1' && tecla <= '4')
+            {
+                printf("%c\n", tecla);
+                return tecla - '0';
+            }
+        }
+
+    }
+
+    printf("\n");
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJugar, int preguntasCargadas, int *racha, int multiplicadorRacha, int segundosLimite)
 {
     int orden_preguntas[MC_POR_CATEGORIA];
     int i, p_idx, respuesta, puntaje = 0;
@@ -81,13 +129,22 @@ int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJuga
         printf("  3) %s\n", p.opciones[2]);
         printf("  4) %s\n", p.opciones[3]);
 
-        do
-        {
-            printf("Tu respuesta (1-4): ");
-            scanf("%d", &respuesta);
-        }
-        while (respuesta < 1 || respuesta > 4);
+                if (segundosLimite > 0){
 
+            printf("Tienes %d segundos!\n", segundosLimite);
+            respuesta = leerRespuestaConTiempo(segundosLimite);
+
+            if (respuesta == 0)
+            {
+                printf("\n-> SE ACABO EL TIEMPO!\n");
+            }
+        }else{
+            do{
+                printf("Tu respuesta (1-4): ");
+                respuesta = leerEntero();
+            }
+            while (respuesta < 1 || respuesta > 4);
+        }
         if (respuesta == p.respuestaCorrecta)
         {
             (*racha)++;

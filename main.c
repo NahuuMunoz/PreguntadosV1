@@ -7,6 +7,8 @@
 #include "verdadero_falso.h"
 #include "multiple_choice.h"
 #include "ranking.h"
+#include <conio.h>
+#include <windows.h>
 
 ///Constantes de Archivos usados
 #define ARCHIVO_PARTIDAS "partidas.dat"
@@ -186,8 +188,9 @@ void partidaNueva(int idJugador, const char nombreJugador[])
     int modo = 0;
     int cantCategorias;
     int preguntasPorCategoria;
+    int segundosPorPregunta = 0; // 0 = sin limite de tiempo por defecto para facil y dificil
 
-    // --- VARIABLES DE RACHA Y POTENCIADOR ---
+    /// --- VARIABLES DE RACHA Y POTENCIADOR ---
     int rachaActual = 0;
     int rachaMaxima = 0;
     int multiplicadorRacha = 1;
@@ -228,6 +231,7 @@ void partidaNueva(int idJugador, const char nombreJugador[])
         multiplicadorRacha = 3;
         archivoMC = ARCHIVO_MC_HARDCORE;
         nombreModo = "Hardcore";
+        segundosPorPregunta = 10; //Limite de respuesta para el modo HARDCORE
     }
 
     Pila mazoCategorias;
@@ -256,7 +260,7 @@ void partidaNueva(int idJugador, const char nombreJugador[])
             int cargadas = cargarMCPorCategoria(archivoMC, catElegida.idCategoria, preguntasArchivo, 5);
 
             if (cargadas > 0) {
-                puntajeTotal += jugar_categoria_mc(catElegida, preguntasArchivo, preguntasPorCategoria, cargadas, &rachaActual, multiplicadorRacha);
+                puntajeTotal += jugar_categoria_mc(catElegida, preguntasArchivo, preguntasPorCategoria, cargadas, &rachaActual, multiplicadorRacha, segundosPorPregunta);
             }
         } else {
             PreguntaVoF preguntasArchivoVoF[5];
