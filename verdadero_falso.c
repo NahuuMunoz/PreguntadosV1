@@ -83,7 +83,7 @@ int cargarVoFPorCategoria(const char nombreArchivo[], int idCategoria, PreguntaV
     return validos;
 }
 
-int jugar_categoria_vof(Categoria cat, PreguntaVoF preguntasDeCat[], int cantAJugar, int preguntasCargadas)
+int jugar_categoria_vof(Categoria cat, PreguntaVoF preguntasDeCat[], int cantAJugar, int preguntasCargadas, int *racha, int multiplicadorRacha)
 {
     int orden_preguntas[VOF_POR_CATEGORIA];
     int i, p_idx, puntaje = 0;
@@ -101,8 +101,9 @@ int jugar_categoria_vof(Categoria cat, PreguntaVoF preguntasDeCat[], int cantAJu
 
     mezclar_indices(orden_preguntas, preguntasCargadas);
 
+    printf("\n---------------------------------------\n");
     printf("   CATEGORIA: %s (VERDADERO O FALSO)\n", cat.nombre);
-
+    printf("-----------------------------------------\n");
 
     for (i = 0; i < cantAJugar; i++)
     {
@@ -122,12 +123,26 @@ int jugar_categoria_vof(Categoria cat, PreguntaVoF preguntasDeCat[], int cantAJu
 
         if (strcmpi(respuesta, p.respuesta) == 0)
         {
-            printf("-> Correcto! Sumas %d puntos.\n", p.puntosBase);
-            puntaje += p.puntosBase;
+            (*racha)++;
+            int puntosASumar = p.puntosBase;
+
+            if (multiplicadorRacha > 1 && (*racha) >= 5)
+            {
+                printf("\n>>> RACHA x%d ACTIVADA! <<<\n", multiplicadorRacha);
+                puntosASumar *= multiplicadorRacha;
+            }
+
+            printf("-> Correcto! Sumas %d puntos.\n", puntosASumar);
+            puntaje += puntosASumar;
         }
         else
         {
-            printf("-> Incorrecto! La respuesta era %s.\n", p.respuesta);
+            *racha = 0;
+            printf("-> Incorrecto. La respuesta era %s.\n", p.respuesta);
+            if (multiplicadorRacha > 1)
+            {
+                printf(">>> Has perdido tu racha! <<<\n");
+            }
         }
     }
 

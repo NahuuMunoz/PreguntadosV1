@@ -5,7 +5,6 @@
 #define CANT_CATEGORIAS 5
 #define MC_POR_CATEGORIA 5
 #define TOTAL_PREGUNTAS_MC 25
-
 #define ARCHIVO_MC_HARDCORE "archivo_diffhardcore"
 
 #define TIEMPO_HARDCORE 15 //Tiempo maximo para contestar cada pregunta
@@ -33,10 +32,11 @@ void mezclar_indices(int orden[], int cantidad);
 // Persistencia y ABM
 long cantidadPreguntasMC(const char nombreArchivo[]);
 void inicializarBancoMC(const char nombreArchivo[]);
+void inicializarBancoMCHardcore(const char nombreArchivo[]);
 int guardarPreguntaMC(const char nombreArchivo[], PreguntaMC nueva);
 void listarBancoMC(const char nombreArchivo[]);
 int cargarMCPorCategoria(const char nombreArchivo[], int idCategoria, PreguntaMC destino[], int maxDim);
 
 // Funciones de juego
-int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJugar, int preguntasCargadas);
+int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJugar, int preguntasCargadas, int *racha, int multiplicadorRacha);
 #endif

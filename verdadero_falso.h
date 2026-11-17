@@ -20,6 +20,7 @@ long cantidadPreguntasVoF(const char nombreArchivo[]);
 void inicializarBancoVoF(const char nombreArchivo[]);
 int cargarVoFPorCategoria(const char nombreArchivo[], int idCategoria, PreguntaVoF destino[], int maxDim);
 
-int jugar_categoria_vof(Categoria cat, PreguntaVoF preguntasDeCat[], int cantAJugar, int preguntasCargadas);
+// Funciones de juego
+int jugar_categoria_vof(Categoria cat, PreguntaVoF preguntasDeCat[], int cantAJugar, int preguntasCargadas, int *racha, int multiplicadorRacha);
 
 #endif // VERDADERO_FALSO_H_INCLUDED
