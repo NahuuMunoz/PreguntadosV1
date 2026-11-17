@@ -110,9 +110,9 @@
 1794874233 c:\preguntadosv1\verdadero_falso.h
 	"multiple_choice.h"
 
-1794875252 c:\preguntadosv1\multiple_choice.h
+1794931281 c:\preguntadosv1\multiple_choice.h
 
-1794875252 source:c:\preguntadosv1\main.c
+1794933559 source:c:\preguntadosv1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -122,10 +122,14 @@
 	"verdadero_falso.h"
 	"multiple_choice.h"
 	"ranking.h"
+	<conio.h>
+	<windows.h>
 
-1794875252 source:c:\preguntadosv1\multiple_choice.c
+1794931281 source:c:\preguntadosv1\multiple_choice.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"multiple_choice.h"
+	<conio.h>
+	<windows.h>
 
