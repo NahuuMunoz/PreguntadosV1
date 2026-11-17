@@ -62,11 +62,6 @@ int leerRespuestaConTiempo(int segundosLimite)
     DWORD limiteMs = (DWORD) segundosLimite * 1000;
     int tecla;
 
-    // Chequea que el usuario haya apretado una tecla sin pausar el programa
-    while (_kbhit())
-    {
-        _getch(); //Lee una tecla SIN esperar al enter ni pausar el programa
-    }
 
     printf("Tu respuesta (1-4): ");
     inicio = GetTickCount();
@@ -79,7 +74,7 @@ int leerRespuestaConTiempo(int segundosLimite)
             if (tecla >= '1' && tecla <= '4')
             {
                 printf("%c\n", tecla);
-                return tecla - '0';
+                return tecla;
             }
         }
 
