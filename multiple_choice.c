@@ -207,7 +207,7 @@ void inicializarBancoMCHardcore(const char nombreArchivo[])
 
     PreguntaMC banco[25] =
     {
-        {1, {1, "Deportes"}, "Cuantas derrotas oficiales tuvo Mike Tyson en su carrera?", {"0", "2", "4", "6"}, 4, 300, 1},
+        {1, {1, "Deportes"}, "Cuantas derrotas oficiales tuvo Mike Tyson en su carrera?", {"0", "2", "6", "4"}, 3, 300, 1},
         {2, {1, "Deportes"}, "Que seleccion perdio 3 finales del mundo antes de ganar su primera?", {"Holanda", "Inglaterra", "Ninguna", "Francia"}, 3, 300, 1},
         {3, {1, "Deportes"}, "Cual fue el primer futbolista en ganar una copa mundial tanto como jugador como entrenador?", {"Maradona", "Zagallo", "Pele", "Beckenbauer"}, 2, 300, 1},
         {4, {1, "Deportes"}, "Quien es el mejor ajedrecista del mundo actualmente?", {"Hikaru Nakamura", "Magnus Carlsen", "Bobby Fischer", "Levy Rozman"}, 2, 300, 1},

@@ -230,41 +230,44 @@ void partidaNueva(int idJugador, const char nombreJugador[])
         nombreModo = "Hardcore";
     }
 
+    Pila mazoCategorias;
+    inicpila(&mazoCategorias);
+
     mezclar_indices(indicesCats, 5);
+
+    // Apilamos la cantidad de categorias que se van a jugar en este modo
+    for (int i = 0; i < cantCategorias; i++) {
+        apilar(&mazoCategorias, indicesCats[i]);
+    }
 
     printf("\n\t COMIENZA LA PARTIDA (Modo %s) \t\n", nombreModo);
 
-    for (c = 0; c < cantCategorias; c++)
-    {
-        Categoria catElegida = cats[indicesCats[c]];
+    // 4. En lugar de un for, juegas MIENTRAS la pila no este vacia
+    while (!pilavacia(&mazoCategorias)) {
 
-        /// 0 = Multiple Choice, 1 = Verdadero / Falso
+        // Sacas la categoria del tope de la pila y la desapilas
+        int idCatActual = desapilar(&mazoCategorias);
+        Categoria catElegida = cats[idCatActual];
+
         int tipoJuegoAleatorio = (modo == 3) ? 0 : rand() % 2;
 
-        if (tipoJuegoAleatorio == 0)
-        {
+        if (tipoJuegoAleatorio == 0) {
             PreguntaMC preguntasArchivo[5];
             int cargadas = cargarMCPorCategoria(archivoMC, catElegida.idCategoria, preguntasArchivo, 5);
 
-            if (cargadas > 0)
-            {
+            if (cargadas > 0) {
                 puntajeTotal += jugar_categoria_mc(catElegida, preguntasArchivo, preguntasPorCategoria, cargadas, &rachaActual, multiplicadorRacha);
             }
-        }
-        else
-        {
+        } else {
             PreguntaVoF preguntasArchivoVoF[5];
             int cargadas = cargarVoFPorCategoria(ARCHIVO_VOF, catElegida.idCategoria, preguntasArchivoVoF, 5);
 
-            if (cargadas > 0)
-            {
+            if (cargadas > 0) {
                 puntajeTotal += jugar_categoria_vof(catElegida, preguntasArchivoVoF, preguntasPorCategoria, cargadas, &rachaActual, multiplicadorRacha);
             }
         }
 
-        // --- ACTUALIZAMOS LA RACHA MAXIMA HISTORICA ---
-        if (rachaActual > rachaMaxima)
-        {
+        if (rachaActual > rachaMaxima) {
             rachaMaxima = rachaActual;
         }
     }
