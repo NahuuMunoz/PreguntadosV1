@@ -3,7 +3,8 @@
 #include <string.h>
 #include "multiple_choice.h"
 
-void leerTextoMC(char texto[], int dimension) {
+void leerTextoMC(char texto[], int dimension)
+{
     fgets(texto, dimension, stdin);
     texto[strcspn(texto, "\n")] = '\0';
 }
@@ -12,43 +13,54 @@ void leerTextoMC(char texto[], int dimension) {
 /// Devuelve -1 si el usuario escribio algo que no es un numero.
 /// Se usa en lugar de scanf + fflush(stdin), porque fflush(stdin) no limpia el
 /// teclado en todos los compiladores y el Enter sobrante rompia los fgets siguientes.
-int leerEntero(void) {
+int leerEntero(void)
+{
     int valor;
     int c;
 
-    if (scanf("%d", &valor) != 1) {
+    if (scanf("%d", &valor) != 1)
+    {
         valor = -1;
     }
 
-    do {
+    do
+    {
         c = getchar();
-    } while (c != '\n' && c != EOF);
+    }
+    while (c != '\n' && c != EOF);
 
-    if (c == EOF && valor == -1) {
+    if (c == EOF && valor == -1)
+    {
         exit(0); /// Se cerro la entrada: no hay nada mas para leer
     }
 
     return valor;
 }
 
-void mezclar_indices(int orden[], int cantidad) {
+void mezclar_indices(int orden[], int cantidad)
+{
     int i, azar, aux;
-    for (i = 0; i < cantidad; i++) {
+    for (i = 0; i < cantidad; i++)
+    {
         azar = rand() % cantidad;
         aux = orden[i];
         orden[i] = orden[azar];
         orden[azar] = aux;
     }
 }
-int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJugar, int preguntasCargadas) {
+
+int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJugar, int preguntasCargadas, int *racha, int multiplicadorRacha)
+{
     int orden_preguntas[MC_POR_CATEGORIA];
     int i, p_idx, respuesta, puntaje = 0;
 
-    if (cantAJugar > preguntasCargadas) {
+    if (cantAJugar > preguntasCargadas)
+    {
         cantAJugar = preguntasCargadas;
     }
 
-    for (i = 0; i < preguntasCargadas; i++) {
+    for (i = 0; i < preguntasCargadas; i++)
+    {
         orden_preguntas[i] = i;
     }
 
@@ -58,7 +70,8 @@ int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJuga
     printf("   CATEGORIA: %s\n", cat.nombre);
     printf("-----------------------------------------\n");
 
-    for (i = 0; i < cantAJugar; i++) {
+    for (i = 0; i < cantAJugar; i++)
+    {
         p_idx = orden_preguntas[i];
         PreguntaMC p = preguntasDeCat[p_idx];
 
@@ -68,16 +81,35 @@ int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJuga
         printf("  3) %s\n", p.opciones[2]);
         printf("  4) %s\n", p.opciones[3]);
 
-        do {
+        do
+        {
             printf("Tu respuesta (1-4): ");
-            respuesta = leerEntero();
-        } while (respuesta < 1 || respuesta > 4);
+            scanf("%d", &respuesta);
+        }
+        while (respuesta < 1 || respuesta > 4);
 
-        if (respuesta == p.respuestaCorrecta) {
-            printf("-> Correcto! Sumas %d puntos.\n", p.puntosBase);
-            puntaje += p.puntosBase;
-        } else {
+        if (respuesta == p.respuestaCorrecta)
+        {
+            (*racha)++;
+            int puntosASumar = p.puntosBase;
+
+            if (multiplicadorRacha > 1 && (*racha) >= 5)
+            {
+                printf("\n>>> RACHA x%d ACTIVADA! <<<\n", multiplicadorRacha);
+                puntosASumar *= multiplicadorRacha;
+            }
+
+            printf("-> Correcto! Sumas %d puntos.\n", puntosASumar);
+            puntaje += puntosASumar;
+        }
+        else
+        {
+            *racha = 0;
             printf("-> Incorrecto. La correcta era la %d.\n", p.respuestaCorrecta);
+            if (multiplicadorRacha > 1)
+            {
+                printf(">>> Has perdido tu racha! <<<\n");
+            }
         }
     }
 
@@ -85,7 +117,8 @@ int jugar_categoria_mc(Categoria cat, PreguntaMC preguntasDeCat[], int cantAJuga
     return puntaje;
 }
 
-long cantidadPreguntasMC(const char nombreArchivo[]) {
+long cantidadPreguntasMC(const char nombreArchivo[])
+{
     FILE *archivo = fopen(nombreArchivo, "rb");
     long bytes;
     if (archivo == NULL) return 0;
@@ -95,7 +128,8 @@ long cantidadPreguntasMC(const char nombreArchivo[]) {
     return bytes / (long) sizeof(PreguntaMC);
 }
 
-int guardarPreguntaMC(const char nombreArchivo[], PreguntaMC nueva) {
+int guardarPreguntaMC(const char nombreArchivo[], PreguntaMC nueva)
+{
     FILE *archivo = fopen(nombreArchivo, "ab");
     size_t escritos;
     if (archivo == NULL) return 0;
@@ -104,15 +138,18 @@ int guardarPreguntaMC(const char nombreArchivo[], PreguntaMC nueva) {
     return escritos == 1;
 }
 
-int cargarMCPorCategoria(const char nombreArchivo[], int idCategoria, PreguntaMC destino[], int maxDim) {
+int cargarMCPorCategoria(const char nombreArchivo[], int idCategoria, PreguntaMC destino[], int maxDim)
+{
     FILE *archivo = fopen(nombreArchivo, "rb");
     PreguntaMC aux;
     int validos = 0;
 
     if (archivo == NULL) return 0;
 
-    while (validos < maxDim && fread(&aux, sizeof(PreguntaMC), 1, archivo) == 1) {
-        if (aux.activo == 1 && aux.categoria.idCategoria == idCategoria) {
+    while (validos < maxDim && fread(&aux, sizeof(PreguntaMC), 1, archivo) == 1)
+    {
+        if (aux.activo == 1 && aux.categoria.idCategoria == idCategoria)
+        {
             destino[validos] = aux;
             validos++;
         }
@@ -121,13 +158,15 @@ int cargarMCPorCategoria(const char nombreArchivo[], int idCategoria, PreguntaMC
     return validos;
 }
 
-void inicializarBancoMC(const char nombreArchivo[]) {
+void inicializarBancoMC(const char nombreArchivo[])
+{
     if (cantidadPreguntasMC(nombreArchivo) >= TOTAL_PREGUNTAS_MC) return;
 
     FILE *archivo = fopen(nombreArchivo, "wb");
     if (archivo == NULL) return;
 
-    PreguntaMC banco[25] = {
+    PreguntaMC banco[25] =
+    {
         {1, {1, "Deportes"}, "Cual es el deporte mas popular del mundo?", {"Tenis", "Futbol", "Basquet", "Rugby"}, 2, 100, 1},
         {2, {1, "Deportes"}, "Quien gano el mundial 2022?", {"Francia", "Brasil", "Argentina", "Croacia"}, 3, 100, 1},
         {3, {1, "Deportes"}, "Donde se crearon las olimpiadas?", {"China", "Estados Unidos", "Argentina", "Grecia"}, 4, 100, 1},
@@ -159,15 +198,15 @@ void inicializarBancoMC(const char nombreArchivo[]) {
     fclose(archivo);
 }
 
-
-
-void inicializarBancoMCHardcore(const char nombreArchivo[]) {
+void inicializarBancoMCHardcore(const char nombreArchivo[])
+{
     if (cantidadPreguntasMC(nombreArchivo) >= TOTAL_PREGUNTAS_MC) return;
 
     FILE *archivo = fopen(nombreArchivo, "wb");
     if (archivo == NULL) return;
 
-    PreguntaMC banco[25] = {
+    PreguntaMC banco[25] =
+    {
         {1, {1, "Deportes"}, "Cuantas derrotas oficiales tuvo Mike Tyson en su carrera?", {"0", "2", "4", "6"}, 4, 300, 1},
         {2, {1, "Deportes"}, "Que seleccion perdio 3 finales del mundo antes de ganar su primera?", {"Holanda", "Inglaterra", "Ninguna", "Francia"}, 3, 300, 1},
         {3, {1, "Deportes"}, "Cual fue el primer futbolista en ganar una copa mundial tanto como jugador como entrenador?", {"Maradona", "Zagallo", "Pele", "Beckenbauer"}, 2, 300, 1},
@@ -193,19 +232,22 @@ void inicializarBancoMCHardcore(const char nombreArchivo[]) {
         {23, {5, "Programacion"}, "Que estructura de datos funciona bajo el principio LIFO?", {"Cola", "Arbol binario", "Pila", "Tabla Hash"}, 3, 300, 1},
         {24, {5, "Programacion"}, "Quien es considerada la primera programadora en computadora?", {"Ada Lovelace", "Alan Turing", "Margaret Hamilton", "Grace Hopper"}, 1, 300, 1},
         {25, {5, "Programacion"}, "Cual de los siguientes lenguajes de programacion es estatico?", {"Python", "Javascript", "Ruby", "Java"}, 4, 300, 1},
-        };
+    };
 
     fwrite(banco, sizeof(PreguntaMC), 25, archivo);
     fclose(archivo);
 }
 
-void listarBancoMC(const char nombreArchivo[]) {
+void listarBancoMC(const char nombreArchivo[])
+{
     FILE *archivo = fopen(nombreArchivo, "rb");
     PreguntaMC p;
     if (archivo == NULL) return;
     printf("\n--- BANCO MULTIPLE CHOICE ---\n");
-    while (fread(&p, sizeof(PreguntaMC), 1, archivo) == 1) {
-        if (p.activo == 1) {
+    while (fread(&p, sizeof(PreguntaMC), 1, archivo) == 1)
+    {
+        if (p.activo == 1)
+        {
             printf("ID: %d | Cat: %s | %s\n", p.idPregunta, p.categoria.nombre, p.enunciado);
         }
     }
