@@ -10,8 +10,6 @@
 #include <conio.h>
 #include <windows.h>
 
-///Constantes de Archivos usados
-#define ARCHIVO_PARTIDAS "partidas.dat"
 
 /// Prototipado
 void partidaNueva(int idJugador, const char nombreJugador[]);
@@ -121,6 +119,7 @@ int main(void)
                                 break;
                             case 3:
                                 listarBancoMC(ARCHIVO_MC);
+                                listarBancoMC(ARCHIVO_MC_HARDCORE);
                                 break;
                             case 0:
                                 printf("Volviendo al Menu Jugador...\n");
